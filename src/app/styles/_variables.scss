@@ -1,0 +1,55 @@
+// =====================================================================
+// DESIGN SYSTEM — COLEGIO SAN PEDRO DEL NORTE
+// Archivo único de verdad para todos los tokens de diseño.
+// NUNCA escribas colores hex a mano en los componentes, usa estas variables.
+// =====================================================================
+
+// --- PALETA DE COLORES ---
+$color-primary: #8EB924;         // Verde Lima institucional (botones, activos)
+$color-primary-hover: #7aA31e;   // Verde más oscuro para hover
+$color-primary-light: #e8f4c8;   // Verde casi blanco para fondos sutiles
+$color-secondary: #5A5D5A;       // Gris plomo (headers, footers, secciones oscuras)
+$color-secondary-light: #8d9190; // Gris plomo más claro
+$color-dark: #2c2e2c;            // Casi negro para textos
+$color-white: #ffffff;
+$color-bg-app: #f4f5f4;          // Fondo gris humo de toda la app
+$color-bg-card: #ffffff;         // Fondo de tarjetas
+
+// --- SEMÁNTICA (Éxito, Peligro, Advertencia) ---
+$color-success: $color-primary;
+$color-danger: #e53e3e;
+$color-warning: #d69e2e;
+$color-info: #3182ce;
+
+// --- TIPOGRAFÍA ---
+$font-family-base: 'Montserrat', 'Segoe UI', sans-serif;
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// --- ESPACIADOS ---
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+
+// --- BORDES ---
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$border-radius-pill: 9999px;
+
+// --- SOMBRAS (Estilo SPN: Cuadro sólido desfasado) ---
+$shadow-card: 4px 4px 0px #{$color-secondary};
+$shadow-card-hover: 6px 6px 0px #{$color-primary};
+$shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+// --- SIDEBAR ---
+$sidebar-width: 240px;
+$sidebar-bg: $color-secondary;
+$sidebar-text: rgba(255, 255, 255, 0.85);
+$sidebar-active-bg: $color-primary;
+$sidebar-active-text: $color-white;
