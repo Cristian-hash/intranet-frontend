@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   // PUERTA PÚBLICA: Login
@@ -8,11 +9,11 @@ export const routes: Routes = [
   },
 
   // DASHBOARD PROTEGIDO (Layout con Sidebar)
-  // Aquí el AuthGuard bloqueará el acceso sin Token
+  // AuthGuard activo: bloquea el acceso sin Token válido
   {
     path: 'app',
     loadComponent: () => import('./shared/components/shell/shell.component').then(m => m.ShellComponent),
-    // canActivate: [AuthGuard],  // ← Se activa en el Ladrillo 3
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'muro', pathMatch: 'full' },
       {
