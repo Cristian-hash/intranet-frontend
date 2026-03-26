@@ -31,6 +31,11 @@ export class MuroService {
 
   /** Marca un comunicado como leído (firma electrónica de enterado) */
   confirmarLectura(comunicadoId: number): Observable<string> {
-    return this.http.post<string>(`${this.API_URL}/${comunicadoId}/confirmar-lectura`, {});
+    // responseType: 'text' porque Spring Boot responde con un String plano, no JSON
+    return this.http.post(
+      `${this.API_URL}/${comunicadoId}/confirmar-lectura`,
+      {},
+      { responseType: 'text' }
+    );
   }
 }

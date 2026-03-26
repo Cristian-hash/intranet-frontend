@@ -1,0 +1,174 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.muro-page {
+  padding: 0;
+  font-family: v.$font-family-base;
+}
+
+// ============================
+// CABECERA
+// ============================
+.muro-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: v.$spacing-xl;
+  
+  &__titles {
+    h1 {
+      font-size: 1.6rem;
+      font-weight: v.$font-weight-extrabold;
+      color: v.$color-dark;
+      margin-bottom: 4px;
+    }
+    p {
+      color: v.$color-secondary-light;
+      font-size: 0.9rem;
+    }
+  }
+  
+  &__badge {
+    background-color: v.$color-info;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: v.$font-weight-bold;
+    padding: 4px 12px;
+    border-radius: v.$border-radius-pill;
+  }
+}
+
+// ============================
+// ESTADOS DE LA PANTALLA
+// ============================
+.muro-loading {
+  text-align: center;
+  padding: v.$spacing-2xl;
+  color: v.$color-secondary-light;
+  
+  p { margin-top: v.$spacing-md; }
+}
+
+.muro-error {
+  text-align: center;
+  padding: v.$spacing-xl;
+  background: #fff0f0;
+  border: 1px solid v.$color-danger;
+  border-radius: v.$border-radius-md;
+  color: v.$color-danger;
+  
+  p { margin-bottom: v.$spacing-md; font-weight: v.$font-weight-semibold; }
+}
+
+// ============================
+// GRID DE TARJETAS
+// ============================
+.muro-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: v.$spacing-lg;
+}
+
+// ============================
+// TARJETA DE COMUNICADO (estilo SPN)
+// ============================
+.comunicado-card {
+  @include m.card-spn;
+  padding: v.$spacing-lg;
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-md;
+  border-left: 4px solid v.$color-primary; // Acento verde lima institucional
+
+  // Estado: Ya leído → apagamos el borde y reducimos contraste
+  &--leido {
+    border-left-color: #d8dbd8;
+    box-shadow: 2px 2px 0px #d8dbd8;
+    opacity: 0.85;
+    
+    &:hover {
+      box-shadow: 2px 2px 0px #d8dbd8 !important;
+      transform: none !important;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: v.$spacing-sm;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__autor {
+    font-size: 0.78rem;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__fecha {
+    font-size: 0.75rem;
+    color: v.$color-secondary-light;
+  }
+
+  &__titulo {
+    font-size: 1.1rem;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-dark;
+    line-height: 1.3;
+  }
+
+  &__contenido {
+    font-size: 0.92rem;
+    color: v.$color-secondary;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: v.$spacing-sm;
+    border-top: 1px solid rgba(0,0,0,0.06);
+  }
+
+  &__firmado {
+    font-size: 0.8rem;
+    color: v.$color-primary;
+    font-weight: v.$font-weight-semibold;
+  }
+}
+
+// ============================
+// BOTÓN ENTENDIDO
+// ============================
+.btn-entendido {
+  @include m.btn-primary;
+  font-size: 0.85rem;
+  padding: v.$spacing-sm v.$spacing-md;
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-xs;
+}
+
+// Spinner reutilizado del global
+.spinner-inline {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

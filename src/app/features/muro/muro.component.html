@@ -1,0 +1,97 @@
+<section class="muro-page">
+
+  <!-- CABECERA DEL MURO -->
+  <div class="muro-header">
+    <div class="muro-header__titles">
+      <h1>📣 Muro de Comunicados</h1>
+      <p>Avisos y anuncios de la institución</p>
+    </div>
+    @if (!cargando() && contarSinLeer() > 0) {
+      <span class="muro-header__badge" id="badge-sin-leer">
+        {{ contarSinLeer() }} sin leer
+      </span>
+    }
+  </div>
+
+  <!-- ESTADO: CARGANDO -->
+  @if (cargando()) {
+    <div class="muro-loading">
+      <div class="spinner"></div>
+      <p>Cargando comunicados...</p>
+    </div>
+  }
+
+  <!-- ESTADO: ERROR -->
+  @if (!cargando() && error()) {
+    <div class="muro-error">
+      <p>⚠️ {{ error() }}</p>
+      <button class="btn-primary" (click)="cargarMuro()" id="btn-reintentar">
+        Reintentar
+      </button>
+    </div>
+  }
+
+  <!-- ESTADO: MURO VACÍO -->
+  @if (!cargando() && !error() && comunicados().length === 0) {
+    <div class="empty-state">
+      <div class="empty-state__icon">📭</div>
+      <p class="empty-state__text">No hay comunicados publicados aún.</p>
+    </div>
+  }
+
+  <!-- ESTADO: LISTA DE TARJETAS -->
+  @if (!cargando() && !error() && comunicados().length > 0) {
+    <div class="muro-grid">
+      @for (comunicado of comunicados(); track comunicado.id) {
+        <article
+          class="comunicado-card"
+          [class.comunicado-card--leido]="comunicado.yaLoLei"
+          [id]="'card-comunicado-' + comunicado.id"
+        >
+          <!-- CABECERA DE LA TARJETA -->
+          <div class="comunicado-card__header">
+            <div class="comunicado-card__meta">
+              <span class="comunicado-card__autor">{{ comunicado.autor }}</span>
+              <span class="comunicado-card__fecha">
+                {{ comunicado.fechaPublicacion | date: 'dd/MM/yyyy HH:mm' }}
+              </span>
+            </div>
+            <!-- BADGE DE ESTADO (Leído / Nuevo) -->
+            @if (comunicado.yaLoLei) {
+              <span class="badge badge--success">✓ Leído</span>
+            } @else {
+              <span class="badge badge--info">🔵 Nuevo</span>
+            }
+          </div>
+
+          <!-- CONTENIDO -->
+          <h2 class="comunicado-card__titulo">{{ comunicado.titulo }}</h2>
+          <p class="comunicado-card__contenido">{{ comunicado.contenido }}</p>
+
+          <!-- BOTÓN ENTENDIDO -->
+          <div class="comunicado-card__footer">
+            @if (!comunicado.yaLoLei) {
+              <button
+                class="btn-entendido"
+                (click)="confirmarLectura(comunicado)"
+                [disabled]="firmandoId() === comunicado.id"
+                [id]="'btn-entendido-' + comunicado.id"
+              >
+                @if (firmandoId() === comunicado.id) {
+                  <span class="spinner-inline"></span>
+                  Firmando...
+                } @else {
+                  ✅ Entendido
+                }
+              </button>
+            } @else {
+              <span class="comunicado-card__firmado">Firma registrada</span>
+            }
+          </div>
+
+        </article>
+      }
+    </div>
+  }
+
+</section>
