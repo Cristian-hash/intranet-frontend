@@ -1,23 +1,26 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
+import { noAuthGuard } from './core/guards/no-auth.guard';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
-  // PUERTA PÚBLICA: Login
+  // PUERTA PÚBLICA: Login (protegida por noAuthGuard — si ya entraste, no vuelvas aquí)
   {
     path: 'login',
+    canActivate: [noAuthGuard],
     loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent)
   },
 
-  // DASHBOARD PROTEGIDO (Layout con Sidebar)
-  // AuthGuard activo: bloquea el acceso sin Token válido
+  // DASHBOARD PROTEGIDO (Layout Shell con Sidebar)
   {
     path: 'app',
+    canActivate: [authGuard], // ← La Aduana Principal: exige Token JWT válido
     loadComponent: () => import('./shared/components/shell/shell.component').then(m => m.ShellComponent),
-    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'muro', pathMatch: 'full' },
       {
         path: 'muro',
+        // Todos los roles autenticados pueden ver el muro
         loadComponent: () => import('./features/muro/muro.component').then(m => m.MuroComponent)
       },
       {
@@ -26,12 +29,13 @@ export const routes: Routes = [
       },
       {
         path: 'admin',
+        canActivate: [roleGuard(['ROLE_ADMIN'])], // ← Doble cerrojo: Token + Rango Admin
         loadComponent: () => import('./features/admin/admin.component').then(m => m.AdminComponent)
       }
     ]
   },
 
-  // Redirige la raíz al login
+  // Redirects de seguridad
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];
