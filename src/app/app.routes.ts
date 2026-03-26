@@ -29,7 +29,7 @@ export const routes: Routes = [
       },
       {
         path: 'admin',
-        canActivate: [roleGuard(['ROLE_ADMIN'])], // ← Doble cerrojo: Token + Rango Admin
+        canActivate: [roleGuard(['ADMIN'])], // ← Doble cerrojo: Token + Rango Admin
         loadComponent: () => import('./features/admin/admin.component').then(m => m.AdminComponent)
       }
     ]

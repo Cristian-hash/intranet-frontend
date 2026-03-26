@@ -1,0 +1,56 @@
+<nav class="sidebar">
+
+  <!-- CABECERA: Logo + Nombre del Colegio -->
+  <div class="sidebar__header">
+    <div class="sidebar__logo">SPN</div>
+    <div class="sidebar__brand">
+      <span class="sidebar__brand-name">San Pedro</span>
+      <span class="sidebar__brand-sub">del Norte</span>
+    </div>
+  </div>
+
+  <!-- PERFIL DEL USUARIO LOGUEADO -->
+  <div class="sidebar__user">
+    <div class="sidebar__avatar">
+      {{ nombreUsuario().charAt(0).toUpperCase() }}
+    </div>
+    <div class="sidebar__user-info">
+      <span class="sidebar__user-name">{{ nombreUsuario() }}</span>
+      <span class="sidebar__user-badge">{{ badgeRol() }}</span>
+    </div>
+  </div>
+
+  <!-- DIVISOR -->
+  <div class="sidebar__divider"></div>
+
+  <!-- MENÚ DINÁMICO: Solo se renderizan los ítems permitidos para el ROL -->
+  <ul class="sidebar__menu">
+    @for (item of menuVisible(); track item.route) {
+      <li>
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="sidebar__menu-item--active"
+          class="sidebar__menu-item"
+          [id]="'nav-' + item.label.toLowerCase()"
+        >
+          <span class="sidebar__menu-icon">{{ item.icon }}</span>
+          <span class="sidebar__menu-label">{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+
+  <!-- ESPACIADOR FLEXIBLE -->
+  <div class="sidebar__spacer"></div>
+
+  <!-- BOTÓN CERRAR SESIÓN (siempre visible) -->
+  <button
+    class="sidebar__logout"
+    (click)="cerrarSesion()"
+    id="btn-logout"
+  >
+    <span>🚪</span>
+    <span>Cerrar Sesión</span>
+  </button>
+
+</nav>
