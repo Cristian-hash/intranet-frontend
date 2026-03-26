@@ -1,0 +1,94 @@
+<div class="login-page">
+
+  <!-- PANEL DE MARCA (Lado izquierdo) -->
+  <aside class="login-brand">
+    <div class="brand-content">
+      <div class="brand-logo">
+        <span class="logo-circle">SPN</span>
+      </div>
+      <h1 class="brand-title">Colegio<br>San Pedro<br>del Norte</h1>
+      <p class="brand-subtitle">Sistema de Gestión Académica</p>
+      <div class="brand-features">
+        <div class="feature-item">📋 Comunicados y avisos</div>
+        <div class="feature-item">📊 Asistencias en tiempo real</div>
+        <div class="feature-item">🎓 Notas por bimestre</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- FORMULARIO (Lado derecho) -->
+  <main class="login-form-section">
+    <div class="login-card">
+
+      <div class="login-card__header">
+        <h2>Iniciar Sesión</h2>
+        <p>Ingresa con tu cuenta institucional</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()" novalidate>
+
+        <!-- EMAIL -->
+        <div class="form-group" [class.has-error]="email.invalid && email.touched">
+          <label for="email">Correo Institucional</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="nombre@colegio.edu"
+            autocomplete="email"
+          />
+          @if (email.invalid && email.touched) {
+            <span class="error-msg">
+              @if (email.errors?.['required']) { El correo es obligatorio }
+              @if (email.errors?.['email']) { Formato de correo inválido }
+            </span>
+          }
+        </div>
+
+        <!-- CONTRASEÑA -->
+        <div class="form-group" [class.has-error]="password.invalid && password.touched">
+          <label for="password">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+          />
+          @if (password.invalid && password.touched) {
+            <span class="error-msg">La contraseña es obligatoria</span>
+          }
+        </div>
+
+        <!-- ERROR DE SERVIDOR -->
+        @if (errorMensaje()) {
+          <div class="alert-error">
+            ⚠️ {{ errorMensaje() }}
+          </div>
+        }
+
+        <!-- BOTÓN -->
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="cargando()"
+          id="btn-login-submit"
+        >
+          @if (cargando()) {
+            <span class="spinner-inline"></span>
+            Ingresando...
+          } @else {
+            Ingresar al Sistema
+          }
+        </button>
+
+      </form>
+
+      <p class="login-footer">
+        ¿Olvidaste tu clave? Contacta al Administrador.
+      </p>
+
+    </div>
+  </main>
+
+</div>

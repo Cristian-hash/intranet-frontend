@@ -1,0 +1,244 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  font-family: v.$font-family-base;
+}
+
+// ============================
+// PANEL DE MARCA (Izquierda)
+// ============================
+.login-brand {
+  width: 420px;
+  background-color: v.$color-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: v.$spacing-2xl;
+  position: relative;
+  overflow: hidden;
+
+  // Decoración geométrica de fondo
+  &::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 280px;
+    height: 280px;
+    background-color: v.$color-primary;
+    opacity: 0.15;
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 200px;
+    height: 200px;
+    background-color: v.$color-primary;
+    opacity: 0.10;
+    border-radius: 50%;
+  }
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: v.$color-white;
+}
+
+.brand-logo {
+  margin-bottom: v.$spacing-lg;
+  
+  .logo-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background-color: v.$color-primary;
+    border-radius: 50%;
+    font-size: 1.6rem;
+    font-weight: v.$font-weight-extrabold;
+    color: v.$color-white;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+  }
+}
+
+.brand-title {
+  font-size: 2.2rem;
+  font-weight: v.$font-weight-extrabold;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: v.$spacing-md;
+  color: v.$color-white;
+}
+
+.brand-subtitle {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-bottom: v.$spacing-xl;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.brand-features {
+  text-align: left;
+  
+  .feature-item {
+    padding: v.$spacing-sm v.$spacing-md;
+    background: rgba(255,255,255,0.08);
+    border-left: 3px solid v.$color-primary;
+    border-radius: 0 v.$border-radius-sm v.$border-radius-sm 0;
+    margin-bottom: v.$spacing-sm;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+  }
+}
+
+// ============================
+// FORMULARIO (Derecha)
+// ============================
+.login-form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: v.$color-bg-app;
+  padding: v.$spacing-xl;
+}
+
+.login-card {
+  @include m.card-spn(false);
+  width: 100%;
+  max-width: 420px;
+  padding: v.$spacing-2xl;
+
+  &__header {
+    margin-bottom: v.$spacing-xl;
+    
+    h2 {
+      font-size: 1.75rem;
+      font-weight: v.$font-weight-extrabold;
+      color: v.$color-dark;
+      margin-bottom: v.$spacing-xs;
+    }
+    
+    p {
+      color: v.$color-secondary-light;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// ============================
+// CAMPOS DEL FORMULARIO
+// ============================
+.form-group {
+  margin-bottom: v.$spacing-lg;
+
+  label {
+    display: block;
+    font-weight: v.$font-weight-semibold;
+    font-size: 0.85rem;
+    color: v.$color-dark;
+    margin-bottom: v.$spacing-xs;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px v.$spacing-md;
+    border: 2px solid darken(#f4f5f4, 10%);
+    border-radius: v.$border-radius-sm;
+    font-family: v.$font-family-base;
+    font-size: 1rem;
+    color: v.$color-dark;
+    background-color: v.$color-white;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+
+    &:focus {
+      border-color: v.$color-primary;
+      box-shadow: 0 0 0 3px v.$color-primary-light;
+    }
+
+    &::placeholder { color: #bcc0be; }
+  }
+
+  &.has-error input {
+    border-color: v.$color-danger;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+  }
+}
+
+.error-msg {
+  display: block;
+  color: v.$color-danger;
+  font-size: 0.8rem;
+  margin-top: v.$spacing-xs;
+  font-weight: v.$font-weight-semibold;
+}
+
+// ============================
+// ALERTA DE ERROR DE SERVIDOR
+// ============================
+.alert-error {
+  background-color: #fff0f0;
+  border: 1px solid v.$color-danger;
+  border-radius: v.$border-radius-sm;
+  padding: v.$spacing-sm v.$spacing-md;
+  color: v.$color-danger;
+  font-size: 0.9rem;
+  margin-bottom: v.$spacing-lg;
+  font-weight: v.$font-weight-semibold;
+}
+
+// ============================
+// BOTÓN DE SUBMIT
+// ============================
+.btn-submit {
+  @include m.btn-primary;
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: v.$spacing-sm;
+}
+
+.spinner-inline {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255,255,255,0.4);
+  border-top-color: v.$color-white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: v.$spacing-lg;
+  font-size: 0.8rem;
+  color: v.$color-secondary-light;
+}
+
+// Responsive: en móvil, el panel de marca se oculta
+@media (max-width: 768px) {
+  .login-brand { display: none; }
+  .login-form-section { padding: v.$spacing-lg; }
+}
