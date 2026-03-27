@@ -1,0 +1,264 @@
+@use '../../../styles/variables' as v;
+@use '../../../styles/mixins' as m;
+
+.megafono-page {
+  font-family: v.$font-family-base;
+}
+
+// ============================
+// CABECERA
+// ============================
+.megafono-header {
+  display: flex;
+  align-items: center;
+  gap: v.$spacing-lg;
+  margin-bottom: v.$spacing-xl;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: v.$font-weight-extrabold;
+    color: v.$color-dark;
+    margin-bottom: 4px;
+  }
+  p {
+    font-size: 0.88rem;
+    color: v.$color-secondary-light;
+  }
+}
+
+.btn-back {
+  background: none;
+  border: 1px solid #d8dbd8;
+  border-radius: v.$border-radius-sm;
+  padding: v.$spacing-sm v.$spacing-md;
+  font-size: 0.85rem;
+  color: v.$color-secondary;
+  cursor: pointer;
+  font-family: v.$font-family-base;
+  font-weight: v.$font-weight-semibold;
+  white-space: nowrap;
+  transition: all 0.2s;
+  &:hover { border-color: v.$color-primary; color: v.$color-primary; }
+}
+
+// ============================
+// ALERTAS
+// ============================
+.alert-exito {
+  background: #f0fff4;
+  border: 1px solid v.$color-primary;
+  color: #7aA31e; // Verde más oscuro para contraste (v.$color-primary-hover)
+  border-radius: v.$border-radius-sm;
+  padding: v.$spacing-sm v.$spacing-md;
+  margin-bottom: v.$spacing-lg;
+  font-weight: v.$font-weight-bold;
+}
+
+.alert-error {
+  background: #fff0f0;
+  border: 1px solid v.$color-danger;
+  color: v.$color-danger;
+  border-radius: v.$border-radius-sm;
+  padding: v.$spacing-sm v.$spacing-md;
+  margin-bottom: v.$spacing-lg;
+  font-weight: v.$font-weight-semibold;
+}
+
+// ============================
+// LAYOUT DE 2 COLUMNAS
+// ============================
+.megafono-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: v.$spacing-lg;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-card {
+  @include m.card-spn(false);
+  padding: v.$spacing-lg;
+}
+
+// ============================
+// CAMPOS DEL FORMULARIO
+// ============================
+.form-group {
+  margin-bottom: v.$spacing-lg;
+
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-dark;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: v.$spacing-xs;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 10px v.$spacing-md;
+    border: 2px solid #d8dbd8;
+    border-radius: v.$border-radius-sm;
+    font-family: v.$font-family-base;
+    font-size: 0.95rem;
+    color: v.$color-dark;
+    background: v.$color-white;
+    resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+
+    &:focus {
+      border-color: v.$color-primary;
+      box-shadow: 0 0 0 3px v.$color-primary-light;
+    }
+    &::placeholder { color: #bcc0be; }
+  }
+
+  &.has-error input, &.has-error textarea {
+    border-color: v.$color-danger;
+  }
+}
+
+.char-counter {
+  font-size: 0.75rem;
+  color: v.$color-secondary-light;
+  font-weight: v.$font-weight-semibold;
+  text-transform: none;
+  letter-spacing: 0;
+  &--warning { color: #e07000; }
+}
+
+.label-opcional {
+  font-weight: v.$font-weight-normal;
+  color: v.$color-secondary-light;
+  font-size: 0.78rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.field-hint {
+  font-size: 0.75rem;
+  color: v.$color-secondary-light;
+  margin-top: 4px;
+  display: block;
+}
+
+.error-msg {
+  color: v.$color-danger;
+  font-size: 0.78rem;
+  margin-top: 4px;
+  display: block;
+  font-weight: v.$font-weight-semibold;
+}
+
+// ============================
+// SELECTOR DE AUDIENCIA
+// ============================
+.aside-title {
+  font-size: 0.82rem;
+  font-weight: v.$font-weight-bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: v.$color-dark;
+  margin-bottom: v.$spacing-md;
+}
+
+.audiencia-grid {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-sm;
+}
+
+.audiencia-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: v.$spacing-sm v.$spacing-md;
+  border: 2px solid #d8dbd8;
+  border-radius: v.$border-radius-sm;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: v.$color-white;
+
+  &:hover { border-color: v.$color-primary; }
+
+  &--selected {
+    border-color: v.$color-primary;
+    background: v.$color-primary-light;
+  }
+
+  &__icon { font-size: 1.2rem; }
+  &__label {
+    font-size: 0.85rem;
+    font-weight: v.$font-weight-bold;
+    color: v.$color-dark;
+    flex: 1;
+  }
+  &__desc {
+    font-size: 0.72rem;
+    color: v.$color-secondary-light;
+    width: 100%;
+    padding-left: 26px;
+  }
+
+  // Oculta el input radio visualmente pero lo mantiene accesible
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden; clip: rect(0,0,0,0);
+    white-space: nowrap;
+  }
+}
+
+// ============================
+// BOTONES DE ACCIÓN
+// ============================
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: v.$spacing-sm;
+  margin-top: v.$spacing-md;
+}
+
+.btn-publicar {
+  @include m.btn-primary;
+  width: 100%;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.btn-cancelar {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: 1px solid #d8dbd8;
+  border-radius: v.$border-radius-sm;
+  color: v.$color-secondary;
+  font-family: v.$font-family-base;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  &:hover { border-color: v.$color-danger; color: v.$color-danger; }
+}
+
+.spinner-inline {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

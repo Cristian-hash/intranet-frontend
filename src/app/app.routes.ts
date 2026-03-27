@@ -28,6 +28,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/asistencias/asistencias.component').then(m => m.AsistenciasComponent)
       },
       {
+        path: 'megafono',
+        canActivate: [roleGuard(['ADMIN'])], // Solo el Director puede publicar
+        loadComponent: () => import('./features/muro/megafono/megafono.component').then(m => m.MegafonoComponent)
+      },
+      {
         path: 'admin',
         canActivate: [roleGuard(['ADMIN'])], // ← Doble cerrojo: Token + Rango Admin
         loadComponent: () => import('./features/admin/admin.component').then(m => m.AdminComponent)

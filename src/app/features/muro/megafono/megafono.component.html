@@ -1,0 +1,146 @@
+<section class="megafono-page">
+
+  <!-- CABECERA -->
+  <div class="megafono-header">
+    <button class="btn-back" (click)="cancelar()" id="btn-volver">
+      ← Volver al Muro
+    </button>
+    <div>
+      <h1>📢 Publicar Comunicado</h1>
+      <p>El comunicado aparecerá en el Muro de la audiencia seleccionada</p>
+    </div>
+  </div>
+
+  <!-- ALERTA DE ÉXITO -->
+  @if (exito()) {
+    <div class="alert-exito" id="alert-exito">
+      ✅ ¡Comunicado publicado con éxito! Redirigiendo al Muro...
+    </div>
+  }
+
+  <!-- ALERTA DE ERROR -->
+  @if (error()) {
+    <div class="alert-error">⚠️ {{ error() }}</div>
+  }
+
+  <!-- FORMULARIO -->
+  <form [formGroup]="form" (ngSubmit)="publicar()" novalidate>
+    <div class="megafono-layout">
+
+      <!-- COLUMNA PRINCIPAL: Contenido -->
+      <div class="megafono-main">
+        <div class="form-card">
+
+          <!-- TÍTULO -->
+          <div class="form-group" [class.has-error]="titulo.invalid && titulo.touched">
+            <label for="titulo">Título del Comunicado *</label>
+            <input
+              id="titulo"
+              type="text"
+              formControlName="titulo"
+              placeholder="Ej: Reunión de Apoderados - 1er Grado"
+              maxlength="120"
+            />
+            @if (titulo.invalid && titulo.touched) {
+              <span class="error-msg">
+                @if (titulo.errors?.['required']) { El título es obligatorio }
+                @if (titulo.errors?.['minlength']) { Mínimo 5 caracteres }
+              </span>
+            }
+          </div>
+
+          <!-- CONTENIDO -->
+          <div class="form-group" [class.has-error]="contenido.invalid && contenido.touched">
+            <label for="contenido">
+              Contenido del Comunicado *
+              <span class="char-counter" [class.char-counter--warning]="longitudContenido > 800">
+                {{ longitudContenido }}/1000
+              </span>
+            </label>
+            <textarea
+              id="contenido"
+              formControlName="contenido"
+              placeholder="Redacta el comunicado aquí. Sé claro y específico sobre fechas, lugares y acciones que deben tomar..."
+              rows="8"
+              maxlength="1000"
+            ></textarea>
+            @if (contenido.invalid && contenido.touched) {
+              <span class="error-msg">
+                @if (contenido.errors?.['required']) { El contenido es obligatorio }
+                @if (contenido.errors?.['minlength']) { Mínimo 10 caracteres }
+              </span>
+            }
+          </div>
+
+          <!-- GRADO DESTINO (Opcional) -->
+          <div class="form-group">
+            <label for="gradoDestino">Grado Específico <span class="label-opcional">(Opcional)</span></label>
+            <input
+              id="gradoDestino"
+              type="text"
+              formControlName="gradoDestino"
+              placeholder='Ej: "3er Grado" — Dejar vacío para todos los grados'
+            />
+            <span class="field-hint">Si lo dejas vacío, llegará a todos los grados de la audiencia seleccionada</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- COLUMNA LATERAL: Audiencia + Acciones -->
+      <aside class="megafono-aside">
+
+        <!-- SELECTOR DE AUDIENCIA -->
+        <div class="form-card">
+          <h3 class="aside-title">¿Quién verá este comunicado?</h3>
+          <div class="audiencia-grid" role="radiogroup" aria-label="Audiencia del comunicado">
+            @for (op of audiencias; track op.valor) {
+              <label
+                class="audiencia-card"
+                [class.audiencia-card--selected]="audienciaDestino.value === op.valor"
+                [for]="'audiencia-' + op.valor"
+              >
+                <input
+                  type="radio"
+                  [id]="'audiencia-' + op.valor"
+                  formControlName="audienciaDestino"
+                  [value]="op.valor"
+                  class="sr-only"
+                />
+                <span class="audiencia-card__icon">{{ op.icono }}</span>
+                <span class="audiencia-card__label">{{ op.etiqueta }}</span>
+                <span class="audiencia-card__desc">{{ op.descripcion }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="form-actions">
+          <button
+            type="submit"
+            class="btn-publicar"
+            [disabled]="cargando()"
+            id="btn-publicar-comunicado"
+          >
+            @if (cargando()) {
+              <span class="spinner-inline"></span> Publicando...
+            } @else {
+              📢 Publicar Comunicado
+            }
+          </button>
+          <button
+            type="button"
+            class="btn-cancelar"
+            (click)="cancelar()"
+            id="btn-cancelar"
+          >
+            Cancelar
+          </button>
+        </div>
+
+      </aside>
+    </div>
+  </form>
+
+</section>

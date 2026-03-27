@@ -17,6 +17,16 @@ export interface ComunicadoResponseDTO {
   yaLoLei: boolean;
 }
 
+// Audiencias disponibles → deben coincidir con el enum TipoAudiencia.java del backend
+export type TipoAudiencia = 'GLOBAL' | 'PADRES' | 'PROFESORES' | 'ALUMNOS';
+
+export interface ComunicadoCreateDTO {
+  titulo: string;
+  contenido: string;
+  audienciaDestino: TipoAudiencia;
+  gradoDestino?: string; // Opcional: "3er Grado"
+}
+
 @Injectable({ providedIn: 'root' })
 export class MuroService {
 
@@ -35,6 +45,14 @@ export class MuroService {
     return this.http.post(
       `${this.API_URL}/${comunicadoId}/confirmar-lectura`,
       {},
+      { responseType: 'text' }
+    );
+  }
+  /** Publica un comunicado nuevo (solo ADMIN) */
+  publicarComunicado(dto: ComunicadoCreateDTO): Observable<string> {
+    return this.http.post(
+      `${this.API_URL}/publicar`,
+      dto,
       { responseType: 'text' }
     );
   }

@@ -30,6 +30,7 @@ export class SidebarComponent {
 
   private readonly todosLosMenuItems: MenuItem[] = [
     { label: 'Muro',        icon: '📣', route: '/app/muro',        roles: ['ADMIN', 'PROFESOR', 'PADRE', 'ALUMNO'] },
+    { label: 'Publicar',    icon: '📢', route: '/app/megafono',    roles: ['ADMIN'] },
     { label: 'Asistencias', icon: '📋', route: '/app/asistencias', roles: ['ADMIN', 'PROFESOR'] },
     { label: 'Administrar', icon: '⚙️', route: '/app/admin',       roles: ['ADMIN'] },
   ];
