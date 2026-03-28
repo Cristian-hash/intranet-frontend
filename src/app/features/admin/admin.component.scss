@@ -1,0 +1,79 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.admin-page {
+  font-family: v.$font-family-base;
+}
+
+.header {
+  margin-bottom: v.$spacing-lg;
+  h1 { font-size: 1.5rem; font-weight: v.$font-weight-extrabold; color: v.$color-dark; margin-bottom: 4px; }
+  p { font-size: 0.88rem; color: v.$color-secondary-light; }
+}
+
+.alert-exito {
+  background: #f0fff4; border: 1px solid v.$color-primary; color: #556c11;
+  padding: 12px; border-radius: v.$border-radius-sm; margin-bottom: 20px; font-weight: bold;
+}
+
+.alert-error {
+  background: #fff0f0; border: 1px solid v.$color-danger; color: v.$color-danger;
+  padding: 12px; border-radius: v.$border-radius-sm; margin-bottom: 20px; font-weight: bold;
+}
+
+.split-layout {
+  display: flex; gap: v.$spacing-xl; flex-wrap: wrap; align-items: flex-start;
+}
+
+.card {
+  @include m.card-spn(false);
+  padding: v.$spacing-lg;
+  flex: 1; min-width: 320px;
+  
+  h2 { font-size: 1.2rem; margin-bottom: v.$spacing-md; color: v.$color-dark; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+}
+
+.form-group {
+  margin-bottom: v.$spacing-md;
+  display: flex; flex-direction: column; gap: 5px;
+
+  label { font-size: 0.85rem; font-weight: bold; color: v.$color-secondary; text-transform: uppercase; }
+  select {
+    padding: 10px; border: 2px solid #e2e8f0; border-radius: v.$border-radius-sm;
+    font-family: inherit; font-size: 0.95rem; color: v.$color-dark; outline: none; transition: 0.2s;
+    &:focus { border-color: v.$color-primary; }
+  }
+}
+
+.btn-guardar {
+  @include m.btn-primary;
+  width: 100%; padding: 12px; font-size: 1rem; margin-top: 10px;
+}
+
+.asignacion-grid {
+  display: flex; flex-direction: column; gap: v.$spacing-sm;
+}
+
+.asig-item {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #f8fafc; padding: 15px; border-radius: v.$border-radius-md; border: 1px solid #e2e8f0;
+
+  .asig-info {
+    display: flex; flex-direction: column; gap: 4px;
+    strong { font-size: 1rem; color: v.$color-dark; }
+    span { font-size: 0.85rem; color: v.$color-secondary; }
+    .badge {
+      display: inline-block; padding: 3px 8px; background: v.$color-primary-light;
+      color: #556c11; border-radius: v.$border-radius-pill; font-size: 0.75rem; font-weight: bold; align-self: flex-start; margin-top: 4px;
+    }
+  }
+
+  .btn-eliminar {
+    background: none; border: none; font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+    &:hover { transform: scale(1.1); filter: brightness(0.8); }
+  }
+}
+
+.empty-msg {
+  color: v.$color-secondary; font-size: 0.9rem; font-style: italic;
+}

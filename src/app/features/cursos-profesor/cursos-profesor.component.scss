@@ -1,0 +1,132 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.cursos-page {
+  font-family: v.$font-family-base;
+}
+
+.header {
+  margin-bottom: v.$spacing-lg;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: v.$font-weight-extrabold;
+    color: v.$color-dark;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 0.88rem;
+    color: v.$color-secondary-light;
+  }
+}
+
+.alert-error {
+  background: #fff0f0;
+  border: 1px solid v.$color-danger;
+  color: v.$color-danger;
+  padding: 12px;
+  border-radius: v.$border-radius-sm;
+  margin-bottom: 20px;
+}
+
+.empty-state {
+  padding: 30px;
+  text-align: center;
+  background: #f8fafc;
+  border-radius: v.$border-radius-md;
+  color: v.$color-secondary;
+}
+
+.cursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: v.$spacing-md;
+  margin-bottom: v.$spacing-xl;
+}
+
+.curso-card {
+  @include m.card-spn(false);
+  padding: v.$spacing-md;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+
+  h3 {
+    color: v.$color-dark;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .salon {
+    font-size: 0.9rem;
+    color: v.$color-secondary;
+    margin-bottom: 12px;
+  }
+
+  .badge-periodo {
+    display: inline-block;
+    padding: 4px 8px;
+    background: v.$color-primary-light;
+    color: #556c11;
+    border-radius: v.$border-radius-pill;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: v.$shadow-soft;
+  }
+
+  &.active {
+    border-color: v.$color-primary;
+    background: rgba(142, 185, 36, 0.05);
+  }
+}
+
+.alumnos-section {
+  @include m.card-spn(false);
+  padding: v.$spacing-lg;
+
+  h2 {
+    font-size: 1.2rem;
+    color: v.$color-dark;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+}
+
+.tabla-alumnos {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    padding: 10px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: v.$color-secondary-light;
+    border-bottom: 2px solid #eee;
+  }
+
+  td {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f5f5f5;
+    vertical-align: middle;
+  }
+}
+
+.btn-calificar {
+  background: #f1f5f9;
+  border: none;
+  padding: 6px 12px;
+  border-radius: v.$border-radius-pill;
+  color: v.$color-secondary;
+  font-size: 0.8rem;
+  cursor: not-allowed;
+  font-weight: 600;
+  font-family: v.$font-family-base;
+}

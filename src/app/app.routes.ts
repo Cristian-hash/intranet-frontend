@@ -25,7 +25,13 @@ export const routes: Routes = [
       },
       {
         path: 'asistencias',
+        canActivate: [roleGuard(['AUXILIAR'])],
         loadComponent: () => import('./features/asistencias/asistencias.component').then(m => m.AsistenciasComponent)
+      },
+      {
+        path: 'cursos-profesor',
+        canActivate: [roleGuard(['PROFESOR'])],
+        loadComponent: () => import('./features/cursos-profesor/cursos-profesor.component').then(m => m.CursosProfesorComponent)
       },
       {
         path: 'megafono',

@@ -1,0 +1,108 @@
+<section class="asistencia-page">
+
+  <!-- CABECERA -->
+  <div class="asistencia-header">
+    <h1>📋 Toma de Asistencia Diaria</h1>
+    <p>Selecciona grado, sección y fecha. Luego marca el estado de cada alumno.</p>
+  </div>
+
+  <!-- ALERTAS -->
+  @if (exito()) {
+    <div class="alert-exito">✅ {{ exito() }}</div>
+  }
+  @if (error()) {
+    <div class="alert-error">⚠️ {{ error() }}</div>
+  }
+
+  <!-- FILTROS -->
+  <div class="filtros-card">
+    <div class="filtros-grid">
+      <div class="filtro-group">
+        <label for="grado">Grado</label>
+        <select id="grado" [ngModel]="gradoSeleccionado()" (ngModelChange)="gradoSeleccionado.set($event)">
+          @for (g of grados; track g) {
+            <option [value]="g">{{ g }}</option>
+          }
+        </select>
+      </div>
+      <div class="filtro-group">
+        <label for="seccion">Sección</label>
+        <select id="seccion" [ngModel]="seccionSeleccionada()" (ngModelChange)="seccionSeleccionada.set($event)">
+          @for (s of secciones; track s) {
+            <option [value]="s">{{ s }}</option>
+          }
+        </select>
+      </div>
+      <div class="filtro-group">
+        <label for="fecha">Fecha</label>
+        <input id="fecha" type="date" [ngModel]="fechaSeleccionada()" (ngModelChange)="fechaSeleccionada.set($event)" />
+      </div>
+      <button class="btn-cargar" (click)="cargarAlumnos()" [disabled]="cargando()" id="btn-cargar-lista">
+        @if (cargando() && !listaVisible()) {
+          ⏳ Cargando...
+        } @else {
+          🔍 Cargar Lista
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- TABLA DE ALUMNOS -->
+  @if (listaVisible()) {
+    <div class="tabla-card">
+
+      <!-- Resumen en vivo -->
+      <div class="resumen-bar">
+        <span class="badge badge--presente">✅ {{ totalPresentes() }}</span>
+        <span class="badge badge--ausente">❌ {{ totalAusentes() }}</span>
+        <span class="badge badge--tardanza">⏰ {{ totalTardanzas() }}</span>
+        <span class="badge badge--total">📊 Total: {{ alumnos().length }}</span>
+      </div>
+
+      <table class="tabla-asistencia">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Alumno</th>
+            <th>Estado (clic para cambiar)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (alumno of alumnos(); track alumno.id; let i = $index) {
+            <tr [class]="'fila-' + alumno.estado.toLowerCase()">
+              <td>{{ i + 1 }}</td>
+              <td>{{ alumno.nombre }}</td>
+              <td>
+                <button
+                  class="toggle-estado"
+                  [class]="'toggle-estado toggle-estado--' + alumno.estado.toLowerCase()"
+                  (click)="toggleEstado(alumno)"
+                  [id]="'toggle-' + alumno.id"
+                >
+                  @switch (alumno.estado) {
+                    @case ('PRESENTE')  { ✅ Presente }
+                    @case ('AUSENTE')   { ❌ Ausente }
+                    @case ('TARDANZA')  { ⏰ Tardanza }
+                  }
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Botón de envío -->
+      <div class="acciones-envio">
+        <button class="btn-enviar" (click)="enviarAsistencia()" [disabled]="cargando()" id="btn-enviar-asistencia">
+          @if (cargando()) {
+            <span class="spinner-inline"></span> Registrando...
+          } @else {
+            📤 Registrar Asistencia del Día
+          }
+        </button>
+      </div>
+
+    </div>
+  }
+
+</section>

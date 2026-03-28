@@ -1,0 +1,117 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as m;
+
+.asistencia-page {
+  font-family: v.$font-family-base;
+}
+
+// Cabecera
+.asistencia-header {
+  margin-bottom: v.$spacing-lg;
+  h1 { font-size: 1.5rem; font-weight: v.$font-weight-extrabold; color: v.$color-dark; margin-bottom: 4px; }
+  p  { font-size: 0.88rem; color: v.$color-secondary-light; }
+}
+
+// Alertas
+.alert-exito {
+  background: #f0fff4; border: 1px solid v.$color-primary; color: v.$color-primary-hover;
+  border-radius: v.$border-radius-sm; padding: v.$spacing-sm v.$spacing-md;
+  margin-bottom: v.$spacing-lg; font-weight: v.$font-weight-bold;
+}
+.alert-error {
+  background: #fff0f0; border: 1px solid v.$color-danger; color: v.$color-danger;
+  border-radius: v.$border-radius-sm; padding: v.$spacing-sm v.$spacing-md;
+  margin-bottom: v.$spacing-lg; font-weight: v.$font-weight-semibold;
+}
+
+// Filtros
+.filtros-card {
+  @include m.card-spn(false);
+  padding: v.$spacing-lg;
+  margin-bottom: v.$spacing-lg;
+}
+.filtros-grid {
+  display: flex; gap: v.$spacing-md; align-items: flex-end; flex-wrap: wrap;
+}
+.filtro-group {
+  display: flex; flex-direction: column; gap: 4px;
+  label {
+    font-size: 0.78rem; font-weight: v.$font-weight-bold;
+    text-transform: uppercase; letter-spacing: 0.5px; color: v.$color-dark;
+  }
+  select, input {
+    padding: 8px 12px; border: 2px solid #d8dbd8; border-radius: v.$border-radius-sm;
+    font-family: v.$font-family-base; font-size: 0.9rem; color: v.$color-dark;
+    outline: none; background: v.$color-white;
+    &:focus { border-color: v.$color-primary; box-shadow: 0 0 0 3px v.$color-primary-light; }
+  }
+}
+.btn-cargar {
+  @include m.btn-primary;
+  padding: 10px 20px; font-size: 0.9rem; white-space: nowrap;
+}
+
+// Tabla Card
+.tabla-card {
+  @include m.card-spn(false);
+  padding: v.$spacing-lg;
+}
+
+// Resumen en vivo
+.resumen-bar {
+  display: flex; gap: v.$spacing-sm; margin-bottom: v.$spacing-md; flex-wrap: wrap;
+}
+.badge {
+  padding: 4px 12px; border-radius: v.$border-radius-pill;
+  font-size: 0.82rem; font-weight: v.$font-weight-bold;
+  &--presente { background: #e8f4c8; color: #6d8e1a; }
+  &--ausente  { background: #ffe0e0; color: v.$color-danger; }
+  &--tardanza { background: #fff3cd; color: #856404; }
+  &--total    { background: #e2e8f0; color: v.$color-secondary; }
+}
+
+// Tabla
+.tabla-asistencia {
+  width: 100%; border-collapse: collapse;
+  th {
+    text-align: left; padding: 10px 12px; font-size: 0.78rem;
+    text-transform: uppercase; letter-spacing: 0.5px; color: v.$color-secondary-light;
+    border-bottom: 2px solid #d8dbd8;
+  }
+  td {
+    padding: 10px 12px; font-size: 0.9rem; border-bottom: 1px solid #eee;
+    vertical-align: middle;
+  }
+}
+.fila-presente { background: rgba(142, 185, 36, 0.04); }
+.fila-ausente { background: rgba(229, 62, 62, 0.04); }
+.fila-tardanza { background: rgba(214, 158, 46, 0.04); }
+
+// Toggle button
+.toggle-estado {
+  padding: 6px 16px; border-radius: v.$border-radius-pill;
+  font-family: v.$font-family-base; font-size: 0.85rem;
+  font-weight: v.$font-weight-bold; cursor: pointer; border: 2px solid;
+  transition: all 0.15s;
+  &--presente { background: #e8f4c8; border-color: v.$color-primary; color: #6d8e1a; }
+  &--ausente  { background: #ffe0e0; border-color: v.$color-danger;  color: v.$color-danger; }
+  &--tardanza { background: #fff3cd; border-color: #d69e2e;         color: #856404; }
+  &:hover { transform: scale(1.05); }
+}
+
+// Acciones
+.acciones-envio {
+  margin-top: v.$spacing-lg; display: flex; justify-content: flex-end;
+}
+.btn-enviar {
+  @include m.btn-primary;
+  padding: 12px 28px; font-size: 0.95rem;
+  display: flex; align-items: center; gap: 8px;
+}
+
+.spinner-inline {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4); border-top-color: white;
+  border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

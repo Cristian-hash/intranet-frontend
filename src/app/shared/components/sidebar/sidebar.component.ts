@@ -29,9 +29,10 @@ export class SidebarComponent {
   nombreUsuario = signal(this.authService.obtenerNombre() ?? 'Usuario');
 
   private readonly todosLosMenuItems: MenuItem[] = [
-    { label: 'Muro',        icon: '📣', route: '/app/muro',        roles: ['ADMIN', 'PROFESOR', 'PADRE', 'ALUMNO'] },
+    { label: 'Muro',        icon: '📣', route: '/app/muro',        roles: ['ADMIN', 'PROFESOR', 'AUXILIAR', 'PADRE', 'ALUMNO'] },
     { label: 'Publicar',    icon: '📢', route: '/app/megafono',    roles: ['ADMIN'] },
-    { label: 'Asistencias', icon: '📋', route: '/app/asistencias', roles: ['ADMIN', 'PROFESOR'] },
+    { label: 'Tomar Lista', icon: '📋', route: '/app/asistencias', roles: ['AUXILIAR'] },
+    { label: 'Mis Cursos',  icon: '📚', route: '/app/cursos-profesor', roles: ['PROFESOR'] },
     { label: 'Administrar', icon: '⚙️', route: '/app/admin',       roles: ['ADMIN'] },
   ];
 
@@ -41,8 +42,9 @@ export class SidebarComponent {
 
   badgeRol = computed(() => {
     const mapas: Record<string, string> = {
-      'ADMIN':    '🔑 Admin',
+      'ADMIN':    '🔑 Director',
       'PROFESOR': '👨‍🏫 Profesor',
+      'AUXILIAR': '📋 Auxiliar',
       'PADRE':    '👨‍👦 Apoderado',
       'ALUMNO':   '🎓 Alumno',
     };

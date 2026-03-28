@@ -1,0 +1,64 @@
+<section class="cursos-page">
+
+  <div class="header">
+    <h1>📚 Mis Cursos Asignados</h1>
+    <p>Selecciona un curso para ver la lista de alumnos a los que dictas clases (solo cursos activos).</p>
+  </div>
+
+  @if (errorCursos()) {
+    <div class="alert-error">⚠️ {{ errorCursos() }}</div>
+  }
+
+  @if (cargandoCursos()) {
+    <p>⏳ Cargando asignaciones dictadas por la Dirección...</p>
+  } @else {
+    @if (cursos().length === 0) {
+      <div class="empty-state">No tienes ningún curso asignado para este periodo.</div>
+    } @else {
+      <div class="cursos-grid">
+        @for (curso of cursos(); track curso.id) {
+          <div 
+            class="curso-card" 
+            [class.active]="cursoSeleccionado()?.id === curso.id"
+            (click)="seleccionarCurso(curso)"
+          >
+            <h3>{{ curso.cursoNombre }}</h3>
+            <p class="salon">📍 {{ curso.grado }} "{{ curso.seccion }}"</p>
+            <span class="badge-periodo">{{ curso.periodoNombre }}</span>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  <!-- VISTA DE ALUMNOS DEL CURSO SELECCIONADO -->
+  @if (cursoSeleccionado()) {
+    <div class="alumnos-section">
+      <h2>👥 Alumnos de {{ cursoSeleccionado()!.cursoNombre }} ({{ cursoSeleccionado()!.grado }} "{{ cursoSeleccionado()!.seccion }}")</h2>
+      
+      @if (cargandoAlumnos()) {
+        <p>⏳ Cargando lista del salón...</p>
+      } @else {
+        <table class="tabla-alumnos">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre del Alumno</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (alumno of alumnos(); track alumno.alumnoId; let i = $index) {
+              <tr>
+                <td>{{ i + 1 }}</td>
+                <td>{{ alumno.alumnoNombre }}</td>
+                <td><button class="btn-calificar" disabled>✏️ Calificar (Pronto)</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  }
+
+</section>
