@@ -29,6 +29,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/asistencias/asistencias.component').then(m => m.AsistenciasComponent)
       },
       {
+        path: 'mis-asistencias',
+        canActivate: [roleGuard(['ALUMNO', 'PADRE'])],
+        loadComponent: () => import('./features/visor-asistencia/visor-asistencia.component').then(m => m.VisorAsistenciaComponent)
+      },
+      {
         path: 'cursos-profesor',
         canActivate: [roleGuard(['PROFESOR'])],
         loadComponent: () => import('./features/cursos-profesor/cursos-profesor.component').then(m => m.CursosProfesorComponent)

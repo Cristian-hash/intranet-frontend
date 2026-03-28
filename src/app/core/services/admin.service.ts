@@ -3,6 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AsignacionDocenteDTO } from './asistencia.service';
 
+export interface AlumnoDTO {
+  perfilId: number;
+  usuarioId: number;
+  nombre: string;
+  grado: string;
+  seccion: string;
+}
+
 export interface ProfesorDTO {
   perfilId: number;
   usuarioId: number;
@@ -37,6 +45,10 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
+  getAlumnos(): Observable<AlumnoDTO[]> {
+    return this.http.get<AlumnoDTO[]>(`${this.API_BASE}/perfiles/alumno/listar`);
+  }
+
   getProfesores(): Observable<ProfesorDTO[]> {
     return this.http.get<ProfesorDTO[]>(`${this.API_BASE}/perfiles/profesor/listar`);
   }
@@ -59,5 +71,9 @@ export class AdminService {
 
   desactivarAsignacion(id: number): Observable<string> {
     return this.http.delete(`${this.API_BASE}/asignaciones/${id}`, { responseType: 'text' });
+  }
+
+  matricular(dto: { cursoId: number, alumnoIds: number[] }): Observable<any> {
+    return this.http.post(`${this.API_BASE}/academico/matricular`, dto);
   }
 }

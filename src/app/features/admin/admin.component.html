@@ -11,70 +11,102 @@
   @if (cargando()) {
     <p>⏳ Cargando lista de profesores, salones y periodos...</p>
   } @else {
-    <div class="split-layout">
-      
-      <!-- FORMULARIO DE ASIGNACIÓN -->
-      <div class="asignacion-form card">
-        <h2>Nueva Asignación Docente</h2>
-        
-        <div class="form-group">
-          <label>1. Elige al Profesor</label>
-          <select [ngModel]="profesorIdSeleccionado()" (ngModelChange)="profesorIdSeleccionado.set($event)">
-            <option [ngValue]="null">-- Seleccione --</option>
-            @for (p of profesores(); track p.perfilId) {
-              <option [value]="p.perfilId">{{ p.nombre }} ({{ p.especialidad }})</option>
-            }
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>2. Elige el Salón / Materia</label>
-          <select [ngModel]="cursoIdSeleccionado()" (ngModelChange)="cursoIdSeleccionado.set($event)">
-            <option [ngValue]="null">-- Seleccione --</option>
-            @for (c of cursos(); track c.id) {
-              <option [value]="c.id">{{ c.nombre }} - {{ c.grado }} "{{ c.seccion }}"</option>
-            }
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>3. Elige el Periodo</label>
-          <select [ngModel]="periodoIdSeleccionado()" (ngModelChange)="periodoIdSeleccionado.set($event)">
-            <option [ngValue]="null">-- Seleccione --</option>
-            @for (per of periodos(); track per.id) {
-              <option [value]="per.id">{{ per.nombre }}</option>
-            }
-          </select>
-        </div>
-
-        <button class="btn-guardar" (click)="crearAsignacion()" [disabled]="cargandoForm()">
-          @if (cargandoForm()) { ⏳ Guardando... } @else { 💾 Guardar Asignación }
-        </button>
-      </div>
-
-      <!-- LISTADO DE ASIGNACIONES ACTIVAS -->
-      <div class="asignaciones-lista card">
-        <h2>Asignaciones Activas</h2>
-        
-        @if (asignaciones().length === 0) {
-          <p class="empty-msg">No hay docentes asignados todavía.</p>
-        } @else {
-          <div class="asignacion-grid">
-            @for (asig of asignaciones(); track asig.id) {
-              <div class="asig-item">
-                <div class="asig-info">
-                  <strong>{{ asig.profesorNombre }}</strong>
-                  <span>📍 {{ asig.cursoNombre }} - {{ asig.grado }} "{{ asig.seccion }}"</span>
-                  <span class="badge">{{ asig.periodoNombre }}</span>
-                </div>
-                <button class="btn-eliminar" (click)="desactivar(asig.id)" title="Desactivar">❌</button>
-              </div>
-            }
-          </div>
-        }
-      </div>
-
+    <!-- PESTAÑAS -->
+    <div class="tabs">
+      <button [class.active]="tabActual() === 'DOCENTES'" (click)="tabActual.set('DOCENTES')">👨‍🏫 Asignación Docente</button>
+      <button [class.active]="tabActual() === 'ALUMNOS'" (click)="tabActual.set('ALUMNOS')">🎓 Matricular Alumnos</button>
     </div>
+
+    <!-- PESTAÑA DOCENTES -->
+    @if (tabActual() === 'DOCENTES') {
+      <div class="split-layout fade-in">
+        <div class="asignacion-form card">
+          <h2>Nueva Asignación Docente</h2>
+          <div class="form-group">
+            <label>1. Elige al Profesor</label>
+            <select [ngModel]="profesorIdSeleccionado()" (ngModelChange)="profesorIdSeleccionado.set($event)">
+              <option [ngValue]="null">-- Seleccione --</option>
+              @for (p of profesores(); track p.perfilId) { <option [value]="p.perfilId">{{ p.nombre }} ({{ p.especialidad }})</option> }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>2. Elige el Salón / Materia</label>
+            <select [ngModel]="cursoIdSeleccionado()" (ngModelChange)="cursoIdSeleccionado.set($event)">
+              <option [ngValue]="null">-- Seleccione --</option>
+              @for (c of cursos(); track c.id) { <option [value]="c.id">{{ c.nombre }} - {{ c.grado }} "{{ c.seccion }}"</option> }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>3. Elige el Periodo</label>
+            <select [ngModel]="periodoIdSeleccionado()" (ngModelChange)="periodoIdSeleccionado.set($event)">
+              <option [ngValue]="null">-- Seleccione --</option>
+              @for (per of periodos(); track per.id) { <option [value]="per.id">{{ per.nombre }}</option> }
+            </select>
+          </div>
+          <button class="btn-guardar" (click)="crearAsignacion()" [disabled]="cargandoForm()">
+            @if (cargandoForm()) { ⏳ Guardando... } @else { 💾 Guardar Asignación }
+          </button>
+        </div>
+
+        <div class="asignaciones-lista card">
+          <h2>Asignaciones Activas</h2>
+          @if (asignaciones().length === 0) { <p class="empty-msg">No hay docentes asignados todavía.</p> } 
+          @else {
+            <div class="asignacion-grid">
+              @for (asig of asignaciones(); track asig.id) {
+                <div class="asig-item">
+                  <div class="asig-info">
+                    <strong>{{ asig.profesorNombre }}</strong>
+                    <span>📍 {{ asig.cursoNombre }} - {{ asig.grado }} "{{ asig.seccion }}"</span>
+                    <span class="badge">{{ asig.periodoNombre }}</span>
+                  </div>
+                  <button class="btn-eliminar" (click)="desactivar(asig.id)" title="Eliminar asignación por error">
+                    🗑️ Eliminar
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- PESTAÑA ALUMNOS (MATRÍCULA) -->
+    @if (tabActual() === 'ALUMNOS') {
+      <div class="split-layout fade-in">
+        <div class="matricula-form card">
+          <h2>Matricular a un Aula (Pase de Grado/Asignación Fija)</h2>
+          <p class="subtext">Selecciona el curso destino, los alumnos que irán a él y presiona Matricular.</p>
+          
+          <div class="form-group mb-xl">
+            <label>Aula de Destino</label>
+            <select [ngModel]="cursoMatriculaId()" (ngModelChange)="cursoMatriculaId.set($event)">
+              <option [ngValue]="null">-- Seleccione --</option>
+              @for (c of cursos(); track c.id) { <option [value]="c.id">{{ c.nombre }} - {{ c.grado }} "{{ c.seccion }}"</option> }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Lista Global de Alumnos (Padrón General)</label>
+            <div class="chk-list">
+              @for (alu of alumnos(); track alu.perfilId) {
+                <label class="chk-item">
+                  <input type="checkbox" 
+                    [ngModel]="alumnosCheck()[alu.perfilId] || false" 
+                    (ngModelChange)="toggleAlumnoCheck(alu.perfilId, $event)"
+                  >
+                  {{ alu.nombre }} <span class="badge-mini">Actualmente en {{ alu.grado || '?' }} "{{ alu.seccion || '?' }}"</span>
+                </label>
+              }
+            </div>
+          </div>
+
+          <button class="btn-matricular" (click)="matricularAlumnos()" [disabled]="cargandoForm()">
+             @if (cargandoForm()) { ⏳ Procesando... } @else { 🎓 Matricular Seleccionados }
+          </button>
+        </div>
+      </div>
+    }
   }
 
 </section>
